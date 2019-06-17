@@ -1,4 +1,4 @@
-# raspberrypi_ubuntu
+# RaspberryPi_Ubuntu
 
 How to edit Ubuntu image of Raspberry Pi
 
