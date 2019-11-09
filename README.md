@@ -2,6 +2,29 @@
 
 How to edit Ubuntu image of Raspberry Pi
 
+## ubuntu-18.04.3-preinstalled-server-arm64+raspi3.img
+
+```sh
+cd ~/Downloads
+curl -O http://cdimage.ubuntu.com/releases/bionic/release/ubuntu-18.04.3-preinstalled-server-arm64+raspi3.img.xz
+xz -kdv ubuntu-18.04.3-preinstalled-server-arm64+raspi3.img.xz
+sudo kpartx -a ubuntu-18.04.3-preinstalled-server-arm64+raspi3.img
+sudo mount /dev/mapper/loop15p2 /mnt
+cd /mnt/etc/apt/apt.conf.d/
+sudo sed -i 's/1/0/g' 20auto-upgrades
+cd /mnt/etc/systemd/system/network-online.target.wants
+sudo rm -rf systemd-networkd-wait-online.service
+sudo ln -s '/dev/null' systemd-networkd-wait-online.service
+sudo dd if=/dev/zero of=/mnt/dummy bs=4096
+sudo rm /mnt/dummy
+cd ~/Downloads
+sudo umount /mnt
+sudo kpartx -d /dev/loop15
+sudo losetup -d /dev/loop15
+mv ubuntu-18.04.3-preinstalled-server-arm64+raspi3.img ubuntu-18.04.3-preinstalled-server-arm64+raspi3-20191109.img
+xz -kvz ubuntu-18.04.3-preinstalled-server-arm64+raspi3-20191109.img
+```
+
 ## ubuntu-18.04.2-preinstalled-server-arm64+raspi3.img.xz
 
 ```sh
